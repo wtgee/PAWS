@@ -17,7 +17,6 @@ from panoptes.utils.messaging import PanMessaging
 
 tornado.options.define("port", default=8888, help="port", type=int)
 tornado.options.define("debug", default=False, help="debug mode")
-# tornado.options.define('log_file_prefix', default='/var/panoptes/logs/paws.log')
 
 
 class WebAdmin(tornado.web.Application):
@@ -27,7 +26,7 @@ class WebAdmin(tornado.web.Application):
     def __init__(self, config={}):
 
         db = database.PanDB()
-        msg_subscriber = PanMessaging.create_subscriber(6511, host='0.0.0.0')
+        msg_subscriber = PanMessaging.create_subscriber(6511)
         cmd_publisher = PanMessaging.create_publisher(6500)
 
         self._base_dir = '{}'.format(os.getenv('PAWS', default='/var/panoptes/PAWS'))
@@ -64,7 +63,7 @@ class WebAdmin(tornado.web.Application):
 
 if __name__ == '__main__':
     tornado.options.parse_command_line()
-    http_server = tornado.httpserver.HTTPServer(WebAdmin(get_config(host='0.0.0.0')))
+    http_server = tornado.httpserver.HTTPServer(WebAdmin(get_config()))
     http_server.listen(tornado.options.options.port)
     print("Starting PAWS on port {}".format(tornado.options.options.port))
     tornado.ioloop.IOLoop.current().start()
