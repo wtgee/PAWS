@@ -99,8 +99,8 @@ class Webcam(tornado.web.UIModule):
 
     """ A module for showing the webcam """
 
-    def render(self, webcam):
-        return self.render_string("webcams.hbs", webcam=webcam)
+    def render(self):
+        return self.render_string("webcams.hbs", title="Webcam")
 
 
 class Image(tornado.web.UIModule):

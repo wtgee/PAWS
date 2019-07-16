@@ -263,18 +263,21 @@ function update_environment(info){
     var camera_amps_mult = 1.0;    
 
     try {
-        if (info['name'] == 'telemetry_board'){
+	console.log('Testing control board');
+        if (info['name'] == 'control_board'){
+	    console.log(info);
             var computer_info = info;
             $('.computer_box_humidity_00').html(pretty_number(computer_info['humidity']));
-            $('.computer_box_temp_00').html(pretty_number(computer_info['temp_00']));
-            for (i = 0; i < computer_info['temperature'].length; i++){
-                $('.computer_box_temp_0' + (i + 1)).html(pretty_number(computer_info['temperature'][i]));
-            }
 
-            $('.current_fan').html(pretty_number((computer_info['current']['fan'] / 1023) * fan_amps_mult));
-            $('.current_mount').html(pretty_number((computer_info['current']['mount'] / 1023) * mount_amps_mult));
-            $('.current_main').html(pretty_number((computer_info['current']['main'] / 1023) * main_amps_mult));
-            $('.current_cameras').html(pretty_number((computer_info['current']['cameras'] / 1023) * camera_amps_mult));
+            $('.computer_box_temp_nuc').html(pretty_number(computer_info['temps']['NUC']));
+            $('.computer_box_temp_battery').html(pretty_number(computer_info['temps']['battery']));
+            $('.computer_box_temp_board').html(pretty_number(computer_info['temps']['board']));
+            $('.computer_box_temp_lid').html(pretty_number(computer_info['temps']['lid']));
+
+            $('.current_fan').html(pretty_number((computer_info['currents']['fan'] / 1023) * fan_amps_mult));
+            $('.current_mount').html(pretty_number((computer_info['currents']['mount'] / 1023) * mount_amps_mult));
+            $('.current_main').html(pretty_number((computer_info['currents']['main'] / 1023) * main_amps_mult));
+            $('.current_cameras').html(pretty_number((computer_info['currents']['cameras'] / 1023) * camera_amps_mult));
 
             if(computer_info['power']['fan'] == 1){
                 $('.current_fan').prev().removeClass('danger');
